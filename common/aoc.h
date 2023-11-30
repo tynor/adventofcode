@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <stdalign.h>
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
@@ -26,3 +27,9 @@ void *arena_push(struct arena *a, ssize_t size, ssize_t align);
 
 #define arena_push_array(a, t, n) \
     (t *)arena_push((a), sizeof(t)*(n), alignof(t))
+
+struct str
+{
+    uint8_t *data;
+    ssize_t len;
+};
