@@ -7,6 +7,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/mman.h>
 #include <sys/types.h>
@@ -33,3 +34,25 @@ struct str
     uint8_t *data;
     ssize_t len;
 };
+
+struct lines
+{
+    /*
+     * r points to the read head.
+     */
+    uint8_t *r;
+    /*
+     * w points to the write head.
+     */
+    uint8_t *w;
+    uint8_t buf[1<<16];
+    /*
+     * true if EOF was read.
+     */
+    bool eof;
+};
+
+/*
+ * readline reads a line from stdin and returns it as a string.
+ */
+struct str readline(struct lines *l);
