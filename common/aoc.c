@@ -24,6 +24,35 @@ void *arena_push(struct arena *a, ssize_t size, ssize_t align)
     return p;
 }
 
+struct str str_cut(struct str s, ssize_t i)
+{
+    i = MIN(s.len, i);
+    if (i == s.len) {
+        return (struct str){0};
+    }
+    return (struct str){
+        .data = s.data + i,
+        .len = s.len - i,
+    };
+}
+
+ssize_t parse_int(struct str s, struct str *end)
+{
+    ssize_t n = 0;
+    for (ssize_t i = 0; i != s.len; ++i) {
+        if ('0' <= s.data[i] && s.data[i] <= '9') {
+            n *= 10;
+            n += s.data[i] - '0';
+        } else {
+            if (end) {
+                *end = str_cut(s, i);
+            }
+            break;
+        }
+    }
+    return n;
+}
+
 struct str readline(struct lines *l)
 {
     if (l->r == l->w) {
@@ -31,6 +60,9 @@ struct str readline(struct lines *l)
             return (struct str){0};
         }
         lines_fill(l);
+        if (l->r == l->w && l->eof) {
+            return (struct str){0};
+        }
     }
     for (;;) {
         uint8_t *p = memchr(l->r, '\n', l->w-l->r);

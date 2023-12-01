@@ -13,6 +13,10 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+
 struct arena
 {
     void *mem;
@@ -34,6 +38,10 @@ struct str
     uint8_t *data;
     ssize_t len;
 };
+
+struct str str_cut(struct str s, ssize_t i);
+
+ssize_t parse_int(struct str s, struct str *end);
 
 struct lines
 {
