@@ -31,6 +31,9 @@ if [ "$1" = init ]; then
         curl -o "$input" --cookie "session=$AOC_SESS" \
             "https://adventofcode.com/$AOC_YEAR/day/$AOC_DAY/input"
     fi
+    if [ ! -f "$srcdir/aoc.c" ]; then
+        cp common/aoc.c "$srcdir/aoc.c"
+    fi
     touch "$srcdir/part1.c"
 elif [ "$1" = run1 ]; then
     run 1
