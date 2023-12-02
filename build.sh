@@ -11,10 +11,10 @@ run() {
     prog="./.build/$AOC_YEAR-$AOC_DAY-$1"
     clang -o "$prog" \
         -Wall -Wextra -pedantic \
+        -Werror \
         -std=c2x \
-        -I./common \
         -fsanitize=address,undefined \
-        -O2 -g3 \
+        -g3 \
         "$srcdir/part$1.c"
     if [ -n "$example" ]; then
         "$prog" <<<"$example"
